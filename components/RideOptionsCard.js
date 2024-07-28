@@ -10,8 +10,8 @@ import { selectTravelTimeInformation } from "../slices/navSlice";
 
 const data = [
   {
-    id: "Uber-X-1",
-    title: "UberX",
+    id: "Uber-x",
+    title: "Uber",
     multiplier: 1, // For Price
     image: "https://links.papareact.com/3pn",
   },
@@ -29,6 +29,13 @@ const RideOptionsCard = () => {
     <SafeAreaView style={tw`bg-white flex-grow`}>
       <View>
         <TouchableOpacity
+          onPress={() => navigation.navigate("NavigateCard")}
+          style={tw`absolute left-5 z-50 pb-5 rounded-full -mt-1`}
+        >
+          <Icon name="chevron-left" type="fontawesome" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
           disabled={!selected}
           style={tw`bg-black py-3 w-60 ml-auto mr-auto mb-5 -mt-5 ${
             !selected && "bg-gray-300"
@@ -38,6 +45,12 @@ const RideOptionsCard = () => {
             Choose {selected?.title}
           </Text>
         </TouchableOpacity>
+
+        <Text
+          style={tw`absolute left-5 z-50 pb-5 rounded-full -mt-1 ml-76 font-semibold`}
+        >
+          {travelTimeInformation?.distance?.text}
+        </Text>
       </View>
     </SafeAreaView>
   );
