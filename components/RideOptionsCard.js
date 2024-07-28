@@ -10,10 +10,22 @@ import { selectTravelTimeInformation } from "../slices/navSlice";
 
 const data = [
   {
-    id: "Uber-x",
-    title: "Uber",
+    id: "Uber-X-1",
+    title: "UberX",
     multiplier: 1, // For Price
     image: "https://links.papareact.com/3pn",
+  },
+  {
+    id: "Uber-XL-2",
+    title: "UberXL",
+    multiplier: 1.2,
+    image: "https://links.papareact.com/5w8",
+  },
+  {
+    id: "Uber-LUX-3",
+    title: "UberX",
+    multiplier: 1.75,
+    image: "https://links.papareact.com/7pf",
   },
 ];
 
@@ -52,6 +64,45 @@ const RideOptionsCard = () => {
           {travelTimeInformation?.distance?.text}
         </Text>
       </View>
+
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item: { id, title, multiplier, image }, item }) => (
+          <TouchableOpacity
+            onPress={() => setSelected(item)}
+            style={tw`flex-row justify-between items-center px-10 ${
+              id === selected?.id && "bg-gray-200"
+            }`}
+          >
+            <Image
+              style={{
+                width: 100,
+                height: 100,
+                resizeMode: "contain",
+              }}
+              source={{ uri: image }}
+            />
+            <View style={tw`-ml-6`}>
+              <Text style={tw`text-xl font-semibold`}>{title}</Text>
+              <Text>{travelTimeInformation?.duration?.text} Travel Time</Text>
+            </View>
+
+            {/* Ride pricing calculations */}
+            <Text style={tw`text-xl mt-4`}>
+              {new Intl.NumberFormat("en-au", {
+                style: "currency",
+                currency: "AUD",
+              }).format(
+                (travelTimeInformation?.duration.value *
+                  SURGE_CHARGE_RATE *
+                  multiplier) /
+                  100
+              )}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
     </SafeAreaView>
   );
 };
